@@ -8,10 +8,9 @@
 
 ```html
 <!-- Line ~570-580 -->
-<a href="mailto:you@yourdomain.com" class="social-link email">
-<a href="https://www.linkedin.com/in/your-handle" class="social-link linkedin">
-<a href="https://github.com/your-handle" class="social-link github">
-<a href="https://x.com/your-handle" class="social-link twitter">
+<a href="mailto:drew.whitlock04@gmail.com" class="social-link email">
+<a href="https://www.linkedin.com/in/drewwhitlock" class="social-link linkedin">
+<a href="https://github.com/Grizzly27" class="social-link github">
 ```
 
 **Replace with your actual:**

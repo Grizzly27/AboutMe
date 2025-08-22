@@ -564,6 +564,16 @@ section {
 .role-summary {
     color: var(--color-gray-dark);
     line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+.linkedin-cta {
+    margin-top: 1.5rem;
+}
+
+.linkedin-cta .btn {
+    display: inline-flex;
+    align-items: center;
 }
 
 .skills-section {
