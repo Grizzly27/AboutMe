@@ -2,6 +2,8 @@
 
 A modern, Apple-inspired personal portfolio website showcasing finance and technology leadership expertise.
 
+🌐 **Live Site**: [https://grizzly27.github.io/AboutMe/](https://grizzly27.github.io/AboutMe/)
+
 ## 🌟 Features
 
 - **Apple-Quality Design**: Clean, modern interface inspired by Apple's design principles
@@ -63,17 +65,24 @@ drew-portfolio/
 
 4. **Open your browser** and navigate to `http://localhost:8000`
 
-### GitHub Pages Deployment
+### GitHub Pages Deployment ✅
 
-1. **Create a new repository** on GitHub
-2. **Upload all files** to the repository
-3. **Enable GitHub Pages**:
-   - Go to repository Settings
-   - Scroll to "Pages" section
-   - Select "Deploy from a branch"
-   - Choose "main" branch and "/ (root)" folder
-   - Click "Save"
-4. **Access your site** at `https://yourusername.github.io/repository-name`
+**This site is currently deployed on GitHub Pages:**
+- **Live URL**: [https://grizzly27.github.io/AboutMe/](https://grizzly27.github.io/AboutMe/)
+- **Branch**: `gh-pages` 
+- **Auto-deployment**: Enabled
+
+**To update the live site:**
+1. Make changes to your local files
+2. Commit changes: `git add . && git commit -m "Update site"`
+3. Push to gh-pages: `git push origin gh-pages`
+4. Changes will be live within 5-10 minutes
+
+**Setting up GitHub Pages (Already configured):**
+1. ✅ Repository created at `Grizzly27/AboutMe`
+2. ✅ Files uploaded to `gh-pages` branch
+3. ✅ GitHub Pages enabled in repository Settings > Pages
+4. ✅ Source set to "Deploy from a branch" > `gh-pages` > `/ (root)`
 
 ## 🎨 Customization
 
