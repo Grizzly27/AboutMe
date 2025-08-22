@@ -1,0 +1,37 @@
+{
+  "name": "drew-portfolio",
+  "version": "1.0.0",
+  "description": "Apple-inspired personal portfolio website for Drew W.",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server . -p 8000 -o",
+    "dev": "http-server . -p 8000 -o -c-1",
+    "build": "echo 'Static site - no build required'",
+    "deploy": "gh-pages -d .",
+    "serve": "python -m http.server 8000"
+  },
+  "keywords": [
+    "portfolio",
+    "finance",
+    "data-science",
+    "apple-design",
+    "responsive",
+    "modern-web"
+  ],
+  "author": "Drew W.",
+  "license": "MIT",
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/drew-portfolio.git"
+  },
+  "homepage": "https://your-username.github.io/drew-portfolio",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
