@@ -12,6 +12,7 @@ class PortfolioApp {
         this.setupAnimations();
         this.setupIntersectionObserver();
         this.setupSmoothScrolling();
+        this.setupThemeToggle();
     }
 
     // Navigation functionality
@@ -39,13 +40,24 @@ class PortfolioApp {
         let lastScrollY = window.scrollY;
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
+            const currentTheme = document.documentElement.getAttribute('data-theme');
             
             if (currentScrollY > 100) {
-                nav.style.background = 'rgba(255, 255, 255, 0.95)';
-                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                if (currentTheme === 'dark') {
+                    nav.style.background = 'rgba(26, 26, 26, 0.95)';
+                    nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+                } else {
+                    nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                    nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                }
             } else {
-                nav.style.background = 'rgba(255, 255, 255, 0.8)';
-                nav.style.boxShadow = 'none';
+                if (currentTheme === 'dark') {
+                    nav.style.background = 'rgba(26, 26, 26, 0.9)';
+                    nav.style.boxShadow = 'none';
+                } else {
+                    nav.style.background = 'rgba(255, 255, 255, 0.8)';
+                    nav.style.boxShadow = 'none';
+                }
             }
 
             // Hide/show navbar on scroll
@@ -57,6 +69,81 @@ class PortfolioApp {
             
             lastScrollY = currentScrollY;
         });
+    }
+
+    // Theme Toggle functionality
+    setupThemeToggle() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Get saved theme from localStorage or use system preference
+        const currentTheme = localStorage.getItem('theme') || 
+                           (prefersDark.matches ? 'dark' : 'light');
+        
+        // Set initial theme
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        
+        // Theme toggle click handler
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            // Add transition class for smooth theme change
+            document.documentElement.classList.add('theme-transition');
+            
+            // Change theme
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Add button animation
+            themeToggle.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                themeToggle.style.transform = 'scale(1)';
+            }, 150);
+            
+            // Remove transition class after animation
+            setTimeout(() => {
+                document.documentElement.classList.remove('theme-transition');
+            }, 300);
+            
+            // Update navbar background based on theme
+            this.updateNavbarForTheme(newTheme);
+        });
+        
+        // Listen for system theme changes
+        prefersDark.addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                const newTheme = e.matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                this.updateNavbarForTheme(newTheme);
+            }
+        });
+        
+        // Initial navbar update
+        this.updateNavbarForTheme(currentTheme);
+    }
+    
+    updateNavbarForTheme(theme) {
+        const nav = document.getElementById('nav');
+        const scrollY = window.scrollY;
+        
+        if (theme === 'dark') {
+            if (scrollY > 100) {
+                nav.style.background = 'rgba(26, 26, 26, 0.95)';
+                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+            } else {
+                nav.style.background = 'rgba(26, 26, 26, 0.9)';
+                nav.style.boxShadow = 'none';
+            }
+        } else {
+            if (scrollY > 100) {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.8)';
+                nav.style.boxShadow = 'none';
+            }
+        }
     }
 
     animateHamburger(toggle) {
