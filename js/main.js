@@ -545,34 +545,71 @@ class PortfolioApp {
     }
 
     setupCounterAnimations() {
-        const metricValue = document.querySelector('.metric-value');
-        if (!metricValue) return;
+        // Setup layer cycling for the forecast card
+        this.setupLayerCycling();
+        
+        // Animate system architecture progress bars
+        const progressBars = document.querySelectorAll('.indicator-bar');
+        
+        if (progressBars.length === 0) return;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    this.animateCounter(entry.target);
+                    this.animateProgressBars();
                     observer.unobserve(entry.target);
                 }
             });
-        });
+        }, { threshold: 0.3 });
 
-        observer.observe(metricValue);
+        const heroCard = document.querySelector('.hero-card');
+        if (heroCard) {
+            observer.observe(heroCard);
+        }
     }
 
-    animateCounter(element) {
-        const target = 30; // $30M
-        let current = 0;
-        const increment = target / 50;
-        const timer = setInterval(() => {
-            current += increment;
-            element.textContent = `~$${Math.ceil(current)}M`;
+    setupLayerCycling() {
+        // Get all architecture sections
+        const architectureSections = document.querySelectorAll('.system-architecture');
+        if (architectureSections.length === 0) return;
+
+        // Setup cycling for each section independently
+        architectureSections.forEach((section, sectionIndex) => {
+            const layers = section.querySelectorAll('.arch-layer');
+            if (layers.length === 0) return;
+
+            let currentIndex = 0;
             
-            if (current >= target) {
-                element.textContent = '~$30M';
-                clearInterval(timer);
-            }
-        }, 50);
+            // Start cycling after initial load with staggered timing
+            setTimeout(() => {
+                setInterval(() => {
+                    // Hide current layer
+                    layers[currentIndex].classList.remove('active');
+                    layers[currentIndex].classList.add('prev');
+                    
+                    // Move to next layer
+                    currentIndex = (currentIndex + 1) % layers.length;
+                    
+                    // Show next layer
+                    setTimeout(() => {
+                        layers.forEach(layer => {
+                            layer.classList.remove('prev', 'active');
+                        });
+                        layers[currentIndex].classList.add('active');
+                    }, 250);
+                    
+                }, 4500); // Change every 4.5 seconds (increased from 3 seconds)
+            }, 1000 + (sectionIndex * 500)); // Stagger each section by 500ms
+        });
+    }
+
+    animateProgressBars() {
+        const progressBars = document.querySelectorAll('.indicator-bar');
+        progressBars.forEach((bar, index) => {
+            setTimeout(() => {
+                bar.style.animation = 'progress-fill 1.5s ease-out forwards';
+            }, index * 200); // Stagger the animations
+        });
     }
 
     // Smooth scrolling for anchor links
