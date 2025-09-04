@@ -184,11 +184,22 @@
         The fundamental equation of Bayesian inference expresses posterior beliefs as the normalized product of prior beliefs and observed evidence:
       </p>
       <blockquote>
-        <strong>p(θ|D) = p(D|θ)p(θ) / p(D)</strong><br/>
-        where p(D) = ∫ p(D|θ)p(θ)dθ
+        <strong>p(θ|D) = p(D|θ)p(θ) / p(D)</strong>
       </blockquote>
       <p>
-        In financial contexts, θ represents model parameters (expected returns, volatilities, correlations), D denotes observed market data, and the posterior p(θ|D) captures our updated beliefs after observing evidence. The marginal likelihood p(D) serves as a normalization constant and provides the foundation for Bayesian model comparison through Bayes factors.
+        <strong>Where each component represents:</strong>
+      </p>
+      <ul>
+        <li><strong>p(θ|D)</strong> = Posterior probability: Our updated beliefs about parameters θ after seeing data D</li>
+        <li><strong>p(D|θ)</strong> = Likelihood: How probable the observed data D is, given parameter values θ</li>
+        <li><strong>p(θ)</strong> = Prior probability: Our initial beliefs about parameters θ before seeing any data</li>
+        <li><strong>p(D)</strong> = Marginal likelihood (evidence): Total probability of observing data D across all possible parameter values</li>
+      </ul>
+      <p>
+        The marginal likelihood is calculated as: <strong>p(D) = ∫ p(D|θ)p(θ)dθ</strong> (integrating over all possible θ values)
+      </p>
+      <p>
+        <strong>In Financial Context:</strong> θ represents model parameters (expected returns, volatilities, correlations), D denotes observed market data (stock prices, trading volumes, economic indicators), and the posterior p(θ|D) captures our refined beliefs about market behavior after incorporating new evidence. The marginal likelihood p(D) serves as a normalization constant ensuring probabilities sum to 1, and provides the foundation for Bayesian model comparison through Bayes factors.
       </p>
 
       <blockquote>
