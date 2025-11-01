@@ -74,11 +74,9 @@ class PortfolioApp {
     // Theme Toggle functionality
     setupThemeToggle() {
         const themeToggle = document.getElementById('theme-toggle');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
         
-        // Get saved theme from localStorage or use system preference
-        const currentTheme = localStorage.getItem('theme') || 
-                           (prefersDark.matches ? 'dark' : 'light');
+        // Always default to light theme - professional appearance
+        const currentTheme = localStorage.getItem('theme') || 'light';
         
         // Set initial theme
         document.documentElement.setAttribute('data-theme', currentTheme);
@@ -108,15 +106,6 @@ class PortfolioApp {
             
             // Update navbar background based on theme
             this.updateNavbarForTheme(newTheme);
-        });
-        
-        // Listen for system theme changes
-        prefersDark.addEventListener('change', (e) => {
-            if (!localStorage.getItem('theme')) {
-                const newTheme = e.matches ? 'dark' : 'light';
-                document.documentElement.setAttribute('data-theme', newTheme);
-                this.updateNavbarForTheme(newTheme);
-            }
         });
         
         // Initial navbar update
