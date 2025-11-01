@@ -6,13 +6,16 @@ class PortfolioApp {
     }
 
     init() {
+        // Enforce light theme permanently
+        try { localStorage.setItem('theme', 'light'); } catch {}
+        document.documentElement.setAttribute('data-theme', 'light');
+
         this.setupNavigation();
         this.setupScrollEffects();
         this.setupFormHandling();
         this.setupAnimations();
         this.setupIntersectionObserver();
         this.setupSmoothScrolling();
-        this.setupThemeToggle();
     }
 
     // Navigation functionality
@@ -36,28 +39,16 @@ class PortfolioApp {
             });
         });
 
-        // Navbar scroll effect
+        // Navbar scroll effect (always light theme)
         let lastScrollY = window.scrollY;
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            
             if (currentScrollY > 100) {
-                if (currentTheme === 'dark') {
-                    nav.style.background = 'rgba(26, 26, 26, 0.95)';
-                    nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
-                } else {
-                    nav.style.background = 'rgba(255, 255, 255, 0.95)';
-                    nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-                }
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
             } else {
-                if (currentTheme === 'dark') {
-                    nav.style.background = 'rgba(26, 26, 26, 0.9)';
-                    nav.style.boxShadow = 'none';
-                } else {
-                    nav.style.background = 'rgba(255, 255, 255, 0.8)';
-                    nav.style.boxShadow = 'none';
-                }
+                nav.style.background = 'rgba(255, 255, 255, 0.8)';
+                nav.style.boxShadow = 'none';
             }
 
             // Hide/show navbar on scroll
@@ -71,69 +62,7 @@ class PortfolioApp {
         });
     }
 
-    // Theme Toggle functionality
-    setupThemeToggle() {
-        const themeToggle = document.getElementById('theme-toggle');
-        
-        // Force default to light theme on load for consistent, professional appearance
-        const currentTheme = 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        // Persist the default so previous dark choices don't linger
-        try { localStorage.setItem('theme', 'light'); } catch {}
-        
-        // Theme toggle click handler
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            // Add transition class for smooth theme change
-            document.documentElement.classList.add('theme-transition');
-            
-            // Change theme
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            // Add button animation
-            themeToggle.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                themeToggle.style.transform = 'scale(1)';
-            }, 150);
-            
-            // Remove transition class after animation
-            setTimeout(() => {
-                document.documentElement.classList.remove('theme-transition');
-            }, 300);
-            
-            // Update navbar background based on theme
-            this.updateNavbarForTheme(newTheme);
-        });
-        
-        // Initial navbar update
-        this.updateNavbarForTheme(currentTheme);
-    }
-    
-    updateNavbarForTheme(theme) {
-        const nav = document.getElementById('nav');
-        const scrollY = window.scrollY;
-        
-        if (theme === 'dark') {
-            if (scrollY > 100) {
-                nav.style.background = 'rgba(26, 26, 26, 0.95)';
-                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
-            } else {
-                nav.style.background = 'rgba(26, 26, 26, 0.9)';
-                nav.style.boxShadow = 'none';
-            }
-        } else {
-            if (scrollY > 100) {
-                nav.style.background = 'rgba(255, 255, 255, 0.95)';
-                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                nav.style.background = 'rgba(255, 255, 255, 0.8)';
-                nav.style.boxShadow = 'none';
-            }
-        }
-    }
+    // Theme toggling removed: app is permanently in light mode
 
     animateHamburger(toggle) {
         const spans = toggle.querySelectorAll('span');
