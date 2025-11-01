@@ -75,11 +75,11 @@ class PortfolioApp {
     setupThemeToggle() {
         const themeToggle = document.getElementById('theme-toggle');
         
-        // Always default to light theme - professional appearance
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        
-        // Set initial theme
+        // Force default to light theme on load for consistent, professional appearance
+        const currentTheme = 'light';
         document.documentElement.setAttribute('data-theme', currentTheme);
+        // Persist the default so previous dark choices don't linger
+        try { localStorage.setItem('theme', 'light'); } catch {}
         
         // Theme toggle click handler
         themeToggle.addEventListener('click', () => {
@@ -451,7 +451,8 @@ class PortfolioApp {
     setupAnimations() {
         this.setupHoverEffects();
         this.setupScrollProgress();
-        this.setupTypingEffect();
+        // Typing effect removed for a cleaner, stable hero title
+        // this.setupTypingEffect();
         this.setupCounterAnimations();
     }
 
@@ -499,7 +500,7 @@ class PortfolioApp {
             left: 0;
             width: 0%;
             height: 3px;
-            background: linear-gradient(90deg, #122F57, #1C4E80, #4A78B0);
+            background: var(--color-accent);
             z-index: 1001;
             transition: width 0.1s ease-out;
         `;
@@ -659,46 +660,7 @@ const utils = {
     }
 };
 
-// Additional CSS animations via JavaScript
-const additionalStyles = `
-    @keyframes slideInRight {
-        from {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes slideOutRight {
-        from {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        to {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-    }
-
-    .typing-complete::after {
-        content: '|';
-        animation: blink 1s infinite;
-        color: #4A78B0;
-    }
-
-    @keyframes blink {
-        0%, 50% { opacity: 1; }
-        51%, 100% { opacity: 0; }
-    }
-`;
-
-// Inject additional styles
-const styleSheet = document.createElement('style');
-styleSheet.textContent = additionalStyles;
-document.head.appendChild(styleSheet);
+// Removed JS-injected keyframes/typing styles for a cleaner, stable UI
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

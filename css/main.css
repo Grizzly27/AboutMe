@@ -486,7 +486,6 @@ p {
 .hero-visual {
     display: flex;
     justify-content: center;
-    animation: slideInRight 1s ease-out;
 }
 
 .hero-card {
@@ -543,12 +542,6 @@ p {
 
 .card-dots span:last-child {
     background: #28ca42;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
 }
 
 .card-title {
@@ -566,13 +559,8 @@ p {
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.5px;
-    animation: pulse-status 2s infinite;
 }
 
-@keyframes pulse-status {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
 
 /* Proficiency Legend */
 .proficiency-legend {
@@ -682,8 +670,6 @@ p {
     border-radius: 2px;
     position: relative;
     width: 100%;
-    animation: proficiency-fill 1.5s ease-out;
-    animation-fill-mode: both;
 }
 
 .proficiency-bar.expert {
@@ -698,10 +684,7 @@ p {
     background: #F59E0B;
 }
 
-@keyframes proficiency-fill {
-    0% { width: 0%; opacity: 0; }
-    100% { width: 100%; opacity: 1; }
-}
+
 
 /* Remove old indicator-bar styles */
 .indicator-bar {
