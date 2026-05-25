@@ -88,7 +88,8 @@ class PortfolioApp {
 
     updateActiveNavLink() {
         const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-link');
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+        if (navLinks.length === 0) return;
         
         let current = '';
         
@@ -617,58 +618,82 @@ if ('requestIdleCallback' in window) {
 window.PortfolioApp = PortfolioApp;
 
 const financeCompanies = {
-    apex: {
-        name: 'Apex Retirement Services',
+    visa: {
+        name: 'Visa Inc.',
+        ticker: 'V',
+        sector: 'Financial Services',
         years: [
-            { year: 2020, revenue: 860, expense: 682 },
-            { year: 2021, revenue: 924, expense: 718 },
-            { year: 2022, revenue: 998, expense: 761 },
-            { year: 2023, revenue: 1088, expense: 817 },
-            { year: 2024, revenue: 1172, expense: 872 },
-            { year: 2025, revenue: 1265, expense: 931 }
-        ],
-        mix: [
-            { label: 'Operations', value: 34 },
-            { label: 'Technology', value: 24 },
-            { label: 'Distribution', value: 18 },
-            { label: 'Corporate', value: 14 },
-            { label: 'Risk and Compliance', value: 10 }
+            { year: 2020, revenue: 21846, expense: 7765 },
+            { year: 2021, revenue: 24105, expense: 8301 },
+            { year: 2022, revenue: 29310, expense: 10497 },
+            { year: 2023, revenue: 32653, expense: 11653 },
+            { year: 2024, revenue: 35926, expense: 12331 },
+            { year: 2025, revenue: 40000, expense: 16006 }
         ]
     },
-    harbor: {
-        name: 'Harbor Insurance Group',
+    mastercard: {
+        name: 'Mastercard Incorporated',
+        ticker: 'MA',
+        sector: 'Financial Services',
         years: [
-            { year: 2020, revenue: 1320, expense: 1088 },
-            { year: 2021, revenue: 1384, expense: 1126 },
-            { year: 2022, revenue: 1448, expense: 1168 },
-            { year: 2023, revenue: 1536, expense: 1219 },
-            { year: 2024, revenue: 1618, expense: 1278 },
-            { year: 2025, revenue: 1712, expense: 1344 }
-        ],
-        mix: [
-            { label: 'Claims Operations', value: 31 },
-            { label: 'Technology', value: 22 },
-            { label: 'Customer Service', value: 19 },
-            { label: 'Corporate', value: 16 },
-            { label: 'Compliance', value: 12 }
+            { year: 2020, revenue: 15301, expense: 7220 },
+            { year: 2021, revenue: 18884, expense: 8802 },
+            { year: 2022, revenue: 22237, expense: 9973 },
+            { year: 2023, revenue: 25098, expense: 11090 },
+            { year: 2024, revenue: 28167, expense: 12585 },
+            { year: 2025, revenue: 32791, expense: 13894 }
         ]
     },
-    summit: {
-        name: 'Summit Wealth Platform',
+    paypal: {
+        name: 'PayPal Holdings, Inc.',
+        ticker: 'PYPL',
+        sector: 'Financial Services',
         years: [
-            { year: 2020, revenue: 540, expense: 432 },
-            { year: 2021, revenue: 601, expense: 464 },
-            { year: 2022, revenue: 653, expense: 492 },
-            { year: 2023, revenue: 725, expense: 528 },
-            { year: 2024, revenue: 812, expense: 577 },
-            { year: 2025, revenue: 894, expense: 631 }
-        ],
-        mix: [
-            { label: 'Product', value: 28 },
-            { label: 'Technology', value: 27 },
-            { label: 'Sales', value: 19 },
-            { label: 'Client Success', value: 15 },
-            { label: 'Corporate', value: 11 }
+            { year: 2020, revenue: 21454, expense: 18165 },
+            { year: 2021, revenue: 25371, expense: 21109 },
+            { year: 2022, revenue: 27518, expense: 23681 },
+            { year: 2023, revenue: 29771, expense: 24743 },
+            { year: 2024, revenue: 31797, expense: 26472 },
+            { year: 2025, revenue: 33172, expense: 27107 }
+        ]
+    },
+    microsoft: {
+        name: 'Microsoft Corporation',
+        ticker: 'MSFT',
+        sector: 'Technology',
+        years: [
+            { year: 2020, revenue: 143015, expense: 90056 },
+            { year: 2021, revenue: 168088, expense: 98172 },
+            { year: 2022, revenue: 198270, expense: 114887 },
+            { year: 2023, revenue: 211915, expense: 123392 },
+            { year: 2024, revenue: 245122, expense: 135689 },
+            { year: 2025, revenue: 281724, expense: 153196 }
+        ]
+    },
+    apple: {
+        name: 'Apple Inc.',
+        ticker: 'AAPL',
+        sector: 'Technology',
+        years: [
+            { year: 2020, revenue: 274515, expense: 208227 },
+            { year: 2021, revenue: 365817, expense: 256868 },
+            { year: 2022, revenue: 394328, expense: 274891 },
+            { year: 2023, revenue: 383285, expense: 268984 },
+            { year: 2024, revenue: 391035, expense: 267819 },
+            { year: 2025, revenue: 416161, expense: 283111 }
+        ]
+    },
+    nvidia: {
+        name: 'NVIDIA Corporation',
+        ticker: 'NVDA',
+        sector: 'Technology',
+        years: [
+            { year: 2021, revenue: 16675, expense: 12143 },
+            { year: 2022, revenue: 26914, expense: 16873 },
+            { year: 2023, revenue: 26974, expense: 22750 },
+            { year: 2024, revenue: 60922, expense: 27950 },
+            { year: 2025, revenue: 130497, expense: 49044 },
+            { year: 2026, revenue: 215938, expense: 85551 }
         ]
     }
 };
@@ -733,14 +758,14 @@ function renderFinancialDashboard(companyKey) {
 
     renderDashboardKpis([
         { label: 'Revenue', value: `$${financeNumber.format(latest.revenue)}M`, note: `${formatGrowth(latest.revenue, prior.revenue)} YoY` },
-        { label: 'Operating Expense', value: `$${financeNumber.format(latest.expense)}M`, note: `${formatGrowth(latest.expense, prior.expense)} YoY` },
+        { label: 'Derived Op. Expense', value: `$${financeNumber.format(latest.expense)}M`, note: `${formatGrowth(latest.expense, prior.expense)} YoY` },
         { label: 'Operating Margin', value: `${financePercent.format(margin * 100)}%`, note: `${formatSigned((margin - priorMargin) * 100)} pts YoY` },
         { label: '3Y Forecast Revenue', value: `$${financeNumber.format(forecastEnd.revenue)}M`, note: `${financePercent.format(model.revenueGrowth * 100)}% moving avg` },
-        { label: 'Forecast Expense', value: `$${financeNumber.format(forecastEnd.expense)}M`, note: `${financePercent.format(model.expenseGrowth * 100)}% moving avg` }
+        { label: 'Forecast Op. Expense', value: `$${financeNumber.format(forecastEnd.expense)}M`, note: `${financePercent.format(model.expenseGrowth * 100)}% moving avg` }
     ]);
 
     renderDashboardChart(model.rows);
-    renderExpenseMix(company.mix);
+    renderExpenseProfile(company, latest);
     renderDashboardInsights(company, model, margin);
     renderFinancialTable(model.rows);
 }
@@ -797,12 +822,19 @@ function pointsToPath(points) {
     return points.map((point, index) => `${index === 0 ? 'M' : 'L'}${point[0].toFixed(1)},${point[1].toFixed(1)}`).join(' ');
 }
 
-function renderExpenseMix(mix) {
+function renderExpenseProfile(company, latest) {
     const target = document.getElementById('expense-mix');
-    target.innerHTML = mix.map(item => `
+    const operatingIncome = latest.revenue - latest.expense;
+    const rows = [
+        { label: 'Revenue Baseline', value: 100, display: `$${financeNumber.format(latest.revenue)}M` },
+        { label: 'Derived Operating Expense', value: (latest.expense / latest.revenue) * 100, display: `${financePercent.format((latest.expense / latest.revenue) * 100)}%` },
+        { label: 'Operating Income', value: (operatingIncome / latest.revenue) * 100, display: `${financePercent.format((operatingIncome / latest.revenue) * 100)}%` }
+    ];
+
+    target.innerHTML = rows.map(item => `
         <div class="mix-row">
-            <div class="mix-label"><span>${item.label}</span><span>${item.value}%</span></div>
-            <div class="mix-track"><div class="mix-fill" style="width:${item.value}%"></div></div>
+            <div class="mix-label"><span>${item.label}</span><span>${item.display}</span></div>
+            <div class="mix-track"><div class="mix-fill" style="width:${Math.max(4, Math.min(100, item.value))}%"></div></div>
         </div>
     `).join('');
 }
@@ -817,9 +849,10 @@ function renderDashboardInsights(company, model, margin) {
         : 'Expense trend is running ahead of revenue, making productivity actions the priority.';
 
     document.getElementById('insights-list').innerHTML = [
-        `${company.name} exits the latest actual year at ${financePercent.format(margin * 100)}% operating margin.`,
+        `${company.name} (${company.ticker}) exits the latest actual year at ${financePercent.format(margin * 100)}% operating margin.`,
         `Projected operating income improves by $${financeNumber.format(incomeLift)}M by year three under the moving-average trend.`,
         leverageMessage,
+        'Figures use annual public-company data; operating expense is derived from revenue less operating income.',
         'Drag cards to reorder the view; the layout is saved locally for a product-grade dashboard feel.'
     ].map(item => `<li>${item}</li>`).join('');
 }
