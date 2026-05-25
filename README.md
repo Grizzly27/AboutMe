@@ -18,7 +18,7 @@ This repository powers my public portfolio: a GitHub Pages site designed to show
 
 This is not a static resume page. It is a working proof of how I think about executive finance products:
 
-- **Executive dashboard experience**: a drag-and-drop dashboard for company financial analysis.
+- **Executive dashboard experience**: a standalone drag-and-drop dashboard page for public-company financial analysis.
 - **Historical plus forecast view**: actuals paired with a 3-year moving-average trend forecast.
 - **Decision-ready financial storytelling**: KPIs, expense mix, margin trend, forecast detail, and executive insights in one flow.
 - **Portfolio proof points**: career impact, research, and applied finance technology projects.
@@ -30,12 +30,21 @@ The dashboard is a front-end demo of the kind of BI experience finance teams sho
 
 Core capabilities:
 
-- Select among sample companies and instantly refresh financials.
+- Select among real financial-services and technology companies and instantly refresh financials.
 - View revenue, operating expense, operating margin, YoY growth, and forecast metrics.
 - Compare historical performance with a 3-year moving-average forecast.
 - Reorder widgets with drag and drop.
 - Persist dashboard layout locally with `localStorage`.
 - Render charts and tables client-side with vanilla JavaScript.
+
+Included public-company set:
+
+- Financial services: Visa, Mastercard, PayPal.
+- Technology: Microsoft, Apple, NVIDIA.
+
+Data basis:
+
+Annual figures are sourced from SEC companyfacts where available. Amounts are shown in millions. Operating expense is derived as revenue less operating income so companies can be compared consistently across sectors.
 
 Forecast method:
 
@@ -78,6 +87,7 @@ npm run dev
 ```text
 AboutMe/
 |-- index.html              # Portfolio homepage and dashboard entry point
+|-- dashboard.html          # Standalone financial dashboard demo
 |-- track-record.html       # Career impact and achievements
 |-- research.html           # Research and technical thinking
 |-- about.html              # Longer-form professional thesis
