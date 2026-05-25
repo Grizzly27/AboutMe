@@ -615,3 +615,294 @@ if ('requestIdleCallback' in window) {
 
 // Export for potential use in other scripts
 window.PortfolioApp = PortfolioApp;
+
+const financeCompanies = {
+    apex: {
+        name: 'Apex Retirement Services',
+        years: [
+            { year: 2020, revenue: 860, expense: 682 },
+            { year: 2021, revenue: 924, expense: 718 },
+            { year: 2022, revenue: 998, expense: 761 },
+            { year: 2023, revenue: 1088, expense: 817 },
+            { year: 2024, revenue: 1172, expense: 872 },
+            { year: 2025, revenue: 1265, expense: 931 }
+        ],
+        mix: [
+            { label: 'Operations', value: 34 },
+            { label: 'Technology', value: 24 },
+            { label: 'Distribution', value: 18 },
+            { label: 'Corporate', value: 14 },
+            { label: 'Risk and Compliance', value: 10 }
+        ]
+    },
+    harbor: {
+        name: 'Harbor Insurance Group',
+        years: [
+            { year: 2020, revenue: 1320, expense: 1088 },
+            { year: 2021, revenue: 1384, expense: 1126 },
+            { year: 2022, revenue: 1448, expense: 1168 },
+            { year: 2023, revenue: 1536, expense: 1219 },
+            { year: 2024, revenue: 1618, expense: 1278 },
+            { year: 2025, revenue: 1712, expense: 1344 }
+        ],
+        mix: [
+            { label: 'Claims Operations', value: 31 },
+            { label: 'Technology', value: 22 },
+            { label: 'Customer Service', value: 19 },
+            { label: 'Corporate', value: 16 },
+            { label: 'Compliance', value: 12 }
+        ]
+    },
+    summit: {
+        name: 'Summit Wealth Platform',
+        years: [
+            { year: 2020, revenue: 540, expense: 432 },
+            { year: 2021, revenue: 601, expense: 464 },
+            { year: 2022, revenue: 653, expense: 492 },
+            { year: 2023, revenue: 725, expense: 528 },
+            { year: 2024, revenue: 812, expense: 577 },
+            { year: 2025, revenue: 894, expense: 631 }
+        ],
+        mix: [
+            { label: 'Product', value: 28 },
+            { label: 'Technology', value: 27 },
+            { label: 'Sales', value: 19 },
+            { label: 'Client Success', value: 15 },
+            { label: 'Corporate', value: 11 }
+        ]
+    }
+};
+
+const financeNumber = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+const financePercent = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupFinancialDashboard();
+});
+
+function setupFinancialDashboard() {
+    const select = document.getElementById('company-select');
+    const grid = document.getElementById('dashboard-widget-grid');
+    if (!select || !grid) return;
+
+    setupDashboardDragAndDrop(grid);
+    select.addEventListener('change', () => renderFinancialDashboard(select.value));
+    renderFinancialDashboard(select.value);
+}
+
+function buildForecast(company) {
+    const actuals = company.years.map(row => ({ ...row, type: 'Actual' }));
+    const revenueGrowth = trailingAverageGrowth(actuals, 'revenue');
+    const expenseGrowth = trailingAverageGrowth(actuals, 'expense');
+    const last = actuals[actuals.length - 1];
+    const forecast = [];
+    let revenue = last.revenue;
+    let expense = last.expense;
+
+    for (let i = 1; i <= 3; i += 1) {
+        revenue = Math.round(revenue * (1 + revenueGrowth));
+        expense = Math.round(expense * (1 + expenseGrowth));
+        forecast.push({
+            year: last.year + i,
+            revenue,
+            expense,
+            type: 'Forecast'
+        });
+    }
+
+    return { rows: [...actuals, ...forecast], revenueGrowth, expenseGrowth };
+}
+
+function trailingAverageGrowth(rows, key) {
+    const rates = [];
+    for (let i = rows.length - 3; i < rows.length; i += 1) {
+        rates.push((rows[i][key] - rows[i - 1][key]) / rows[i - 1][key]);
+    }
+    return rates.reduce((sum, rate) => sum + rate, 0) / rates.length;
+}
+
+function renderFinancialDashboard(companyKey) {
+    const company = financeCompanies[companyKey];
+    const model = buildForecast(company);
+    const actuals = model.rows.filter(row => row.type === 'Actual');
+    const latest = actuals[actuals.length - 1];
+    const prior = actuals[actuals.length - 2];
+    const forecastEnd = model.rows[model.rows.length - 1];
+    const margin = (latest.revenue - latest.expense) / latest.revenue;
+    const priorMargin = (prior.revenue - prior.expense) / prior.revenue;
+
+    renderDashboardKpis([
+        { label: 'Revenue', value: `$${financeNumber.format(latest.revenue)}M`, note: `${formatGrowth(latest.revenue, prior.revenue)} YoY` },
+        { label: 'Operating Expense', value: `$${financeNumber.format(latest.expense)}M`, note: `${formatGrowth(latest.expense, prior.expense)} YoY` },
+        { label: 'Operating Margin', value: `${financePercent.format(margin * 100)}%`, note: `${formatSigned((margin - priorMargin) * 100)} pts YoY` },
+        { label: '3Y Forecast Revenue', value: `$${financeNumber.format(forecastEnd.revenue)}M`, note: `${financePercent.format(model.revenueGrowth * 100)}% moving avg` },
+        { label: 'Forecast Expense', value: `$${financeNumber.format(forecastEnd.expense)}M`, note: `${financePercent.format(model.expenseGrowth * 100)}% moving avg` }
+    ]);
+
+    renderDashboardChart(model.rows);
+    renderExpenseMix(company.mix);
+    renderDashboardInsights(company, model, margin);
+    renderFinancialTable(model.rows);
+}
+
+function renderDashboardKpis(items) {
+    const target = document.getElementById('dashboard-kpis');
+    target.innerHTML = items.map(item => `
+        <div class="dashboard-kpi">
+            <span>${item.label}</span>
+            <strong>${item.value}</strong>
+            <small>${item.note}</small>
+        </div>
+    `).join('');
+}
+
+function renderDashboardChart(rows) {
+    const svg = document.getElementById('trend-chart');
+    const width = 760;
+    const height = 320;
+    const pad = { left: 58, right: 24, top: 26, bottom: 44 };
+    const values = rows.flatMap(row => [row.revenue, row.expense]);
+    const max = Math.max(...values) * 1.08;
+    const min = Math.min(...values) * 0.92;
+    const x = index => pad.left + (index * (width - pad.left - pad.right)) / (rows.length - 1);
+    const y = value => height - pad.bottom - ((value - min) / (max - min)) * (height - pad.top - pad.bottom);
+    const actualCount = rows.filter(row => row.type === 'Actual').length;
+    const revenueActual = rows.slice(0, actualCount).map((row, index) => [x(index), y(row.revenue)]);
+    const expenseActual = rows.slice(0, actualCount).map((row, index) => [x(index), y(row.expense)]);
+    const revenueForecast = rows.slice(actualCount - 1).map((row, index) => [x(index + actualCount - 1), y(row.revenue)]);
+    const expenseForecast = rows.slice(actualCount - 1).map((row, index) => [x(index + actualCount - 1), y(row.expense)]);
+    const grid = [0, 0.25, 0.5, 0.75, 1].map(tick => {
+        const yy = pad.top + tick * (height - pad.top - pad.bottom);
+        const value = max - tick * (max - min);
+        return `<line class="dashboard-axis" x1="${pad.left}" y1="${yy}" x2="${width - pad.right}" y2="${yy}"></line><text class="dashboard-chart-label" x="8" y="${yy + 4}">$${financeNumber.format(value)}M</text>`;
+    }).join('');
+    const labels = rows.map((row, index) => `<text class="dashboard-chart-label" x="${x(index) - 16}" y="${height - 12}">${row.year}</text>`).join('');
+
+    svg.innerHTML = `
+        ${grid}
+        <line class="dashboard-axis" x1="${pad.left}" y1="${height - pad.bottom}" x2="${width - pad.right}" y2="${height - pad.bottom}"></line>
+        <line x1="${x(actualCount - 1)}" y1="${pad.top}" x2="${x(actualCount - 1)}" y2="${height - pad.bottom}" stroke="#9aa7b8" stroke-dasharray="5 6"></line>
+        <text class="dashboard-chart-label" x="${x(actualCount - 1) + 10}" y="${pad.top + 12}">Forecast</text>
+        <path class="dashboard-line-revenue" d="${pointsToPath(revenueActual)}"></path>
+        <path class="dashboard-line-revenue dashboard-forecast" d="${pointsToPath(revenueForecast)}"></path>
+        <path class="dashboard-line-expense" d="${pointsToPath(expenseActual)}"></path>
+        <path class="dashboard-line-expense dashboard-forecast" d="${pointsToPath(expenseForecast)}"></path>
+        ${labels}
+        <text x="${width - 190}" y="28" fill="#0A1628" font-size="14" font-weight="800">Revenue</text>
+        <text x="${width - 95}" y="28" fill="#2f9f8f" font-size="14" font-weight="800">Expense</text>
+    `;
+}
+
+function pointsToPath(points) {
+    return points.map((point, index) => `${index === 0 ? 'M' : 'L'}${point[0].toFixed(1)},${point[1].toFixed(1)}`).join(' ');
+}
+
+function renderExpenseMix(mix) {
+    const target = document.getElementById('expense-mix');
+    target.innerHTML = mix.map(item => `
+        <div class="mix-row">
+            <div class="mix-label"><span>${item.label}</span><span>${item.value}%</span></div>
+            <div class="mix-track"><div class="mix-fill" style="width:${item.value}%"></div></div>
+        </div>
+    `).join('');
+}
+
+function renderDashboardInsights(company, model, margin) {
+    const actuals = model.rows.filter(row => row.type === 'Actual');
+    const latest = actuals[actuals.length - 1];
+    const finalForecast = model.rows[model.rows.length - 1];
+    const incomeLift = (finalForecast.revenue - finalForecast.expense) - (latest.revenue - latest.expense);
+    const leverageMessage = model.revenueGrowth > model.expenseGrowth
+        ? 'Revenue trend is outpacing expenses, creating operating leverage in the forecast.'
+        : 'Expense trend is running ahead of revenue, making productivity actions the priority.';
+
+    document.getElementById('insights-list').innerHTML = [
+        `${company.name} exits the latest actual year at ${financePercent.format(margin * 100)}% operating margin.`,
+        `Projected operating income improves by $${financeNumber.format(incomeLift)}M by year three under the moving-average trend.`,
+        leverageMessage,
+        'Drag cards to reorder the view; the layout is saved locally for a product-grade dashboard feel.'
+    ].map(item => `<li>${item}</li>`).join('');
+}
+
+function renderFinancialTable(rows) {
+    document.getElementById('financial-table').innerHTML = rows.map(row => {
+        const income = row.revenue - row.expense;
+        const margin = income / row.revenue;
+        return `
+            <tr class="${row.type === 'Forecast' ? 'forecast-row' : ''}">
+                <td>${row.year}</td>
+                <td>${row.type}</td>
+                <td>$${financeNumber.format(row.revenue)}</td>
+                <td>$${financeNumber.format(row.expense)}</td>
+                <td>$${financeNumber.format(income)}</td>
+                <td>${financePercent.format(margin * 100)}%</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function formatGrowth(current, prior) {
+    return `${formatSigned(((current - prior) / prior) * 100)}%`;
+}
+
+function formatSigned(value) {
+    return `${value >= 0 ? '+' : ''}${financePercent.format(value)}`;
+}
+
+function setupDashboardDragAndDrop(grid) {
+    try {
+        const saved = JSON.parse(localStorage.getItem('dashboardWidgetOrder') || '[]');
+        saved.forEach(id => {
+            const widget = grid.querySelector(`[data-widget-id="${id}"]`);
+            if (widget) grid.appendChild(widget);
+        });
+    } catch {
+        localStorage.removeItem('dashboardWidgetOrder');
+    }
+
+    let dragged = null;
+    grid.querySelectorAll('.dashboard-widget').forEach(widget => {
+        widget.addEventListener('dragstart', () => {
+            dragged = widget;
+            widget.classList.add('dragging');
+        });
+
+        widget.addEventListener('dragend', () => {
+            widget.classList.remove('dragging');
+            dragged = null;
+            saveDashboardWidgetOrder(grid);
+        });
+    });
+
+    grid.addEventListener('dragover', event => {
+        event.preventDefault();
+        if (!dragged) return;
+        const after = getDashboardDragTarget(grid, event.clientY);
+        if (!after) {
+            grid.appendChild(dragged);
+        } else {
+            grid.insertBefore(dragged, after);
+        }
+    });
+}
+
+function getDashboardDragTarget(container, y) {
+    const widgets = [...container.querySelectorAll('.dashboard-widget:not(.dragging)')];
+    return widgets.reduce((closest, widget) => {
+        const box = widget.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset, element: widget };
+        }
+        return closest;
+    }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+}
+
+function saveDashboardWidgetOrder(grid) {
+    const order = [...grid.querySelectorAll('.dashboard-widget')].map(widget => widget.dataset.widgetId);
+    try {
+        localStorage.setItem('dashboardWidgetOrder', JSON.stringify(order));
+    } catch {
+        // Local storage can be unavailable in privacy modes; drag still works for the session.
+    }
+}

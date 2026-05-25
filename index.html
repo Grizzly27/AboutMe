@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drew W. – Finance × Data Science Leader</title>
-    <meta name="description" content="Finance & technology leader building automated forecasting and executive-ready analytics.">
+    <title>Drew W. | Finance Transformation and BI Leader</title>
+    <meta name="description" content="Finance transformation and business intelligence leader building automated forecasting, executive dashboards, and decision systems for modern finance teams.">
     <meta name="keywords" content="FP&A, forecasting, AWS, Python, Anaplan, Power BI, data science, automation">
     
     <!-- Apple-style favicon -->
@@ -25,7 +25,8 @@
                 <a href="#home" class="nav-logo">Drew W.</a>
             </div>
             <div class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link active">Home</a>
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#dashboard" class="nav-link">Dashboard</a>
                 <a href="track-record.html" class="nav-link">Track Record</a>
                 <a href="research.html" class="nav-link">Research</a>
                 <a href="about.html" class="nav-link">About</a>
@@ -45,12 +46,16 @@
                 <div class="hero-text">
                     <h1 class="hero-title">
                         Building Data-Driven Financial Systems<br>
-                        <span class="hero-accent">That Deliver Measurable Business Value</span>
+                        <span class="hero-accent">That Deliver Executive Decision Advantage</span>
                     </h1>
                     <p class="hero-subtitle">
-                        MS Finance | Python & ML Architect | Fortune 500 Finance Leader
+                        MS Finance | Business Intelligence | Python & ML Architect | Fortune 500 Finance Leader
                     </p>
                     <div class="hero-metrics">
+                        <div class="metric-item">
+                            <span class="metric-value">$13B</span>
+                            <span class="metric-label">Annual Expense Analysis Supported</span>
+                        </div>
                         <div class="metric-item">
                             <span class="metric-value">$30M+</span>
                             <span class="metric-label">Cost Savings Identified</span>
@@ -65,7 +70,7 @@
                         </div>
                     </div>
                     <div class="hero-actions">
-                        <a href="research.html" class="btn btn-primary">View Research</a>
+                        <a href="#dashboard" class="btn btn-primary">Explore Dashboard</a>
                         <a href="track-record.html" class="btn btn-secondary">Track Record</a>
                     </div>
                 </div>
@@ -193,6 +198,97 @@
         </div>
     </section>
 
+    <!-- Financial Dashboard Demo -->
+    <section class="finance-dashboard" id="dashboard">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Executive Financial Dashboard</h2>
+                <p class="section-subtitle">A best-in-class drag-and-drop BI experience for historical performance and 3-year moving-average forecasting.</p>
+            </div>
+
+            <div class="dashboard-shell">
+                <div class="dashboard-toolbar">
+                    <div class="dashboard-selector">
+                        <label for="company-select">Company</label>
+                        <select id="company-select" class="dashboard-select">
+                            <option value="apex">Apex Retirement Services</option>
+                            <option value="harbor">Harbor Insurance Group</option>
+                            <option value="summit">Summit Wealth Platform</option>
+                        </select>
+                    </div>
+                    <div class="dashboard-status">
+                        <span class="status-dot"></span>
+                        <span>Forecast uses trailing 3-year moving-average trend</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-kpis" id="dashboard-kpis" aria-live="polite"></div>
+
+                <div class="dashboard-widget-grid" id="dashboard-widget-grid">
+                    <article class="dashboard-widget dashboard-widget-wide" draggable="true" data-widget-id="trend">
+                        <div class="dashboard-widget-header">
+                            <div>
+                                <h3>Historical + Forecast Trend</h3>
+                                <p>Revenue and operating expenses with a 3-year projection.</p>
+                            </div>
+                            <span class="dashboard-drag-handle" aria-label="Drag widget">::</span>
+                        </div>
+                        <div class="dashboard-chart-wrap">
+                            <svg id="trend-chart" class="dashboard-chart" viewBox="0 0 760 320" role="img" aria-label="Financial trend chart"></svg>
+                        </div>
+                    </article>
+
+                    <article class="dashboard-widget" draggable="true" data-widget-id="mix">
+                        <div class="dashboard-widget-header">
+                            <div>
+                                <h3>Expense Mix</h3>
+                                <p>Current-year operating cost profile.</p>
+                            </div>
+                            <span class="dashboard-drag-handle" aria-label="Drag widget">::</span>
+                        </div>
+                        <div id="expense-mix" class="expense-mix"></div>
+                    </article>
+
+                    <article class="dashboard-widget" draggable="true" data-widget-id="insights">
+                        <div class="dashboard-widget-header">
+                            <div>
+                                <h3>Executive Insights</h3>
+                                <p>Decision-ready readout from the model.</p>
+                            </div>
+                            <span class="dashboard-drag-handle" aria-label="Drag widget">::</span>
+                        </div>
+                        <ul id="insights-list" class="dashboard-insights"></ul>
+                    </article>
+
+                    <article class="dashboard-widget dashboard-widget-wide" draggable="true" data-widget-id="detail">
+                        <div class="dashboard-widget-header">
+                            <div>
+                                <h3>Financial Detail</h3>
+                                <p>Actuals and moving-average forecast, in millions.</p>
+                            </div>
+                            <span class="dashboard-drag-handle" aria-label="Drag widget">::</span>
+                        </div>
+                        <div class="dashboard-table-wrap">
+                            <table class="dashboard-table">
+                                <thead>
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Type</th>
+                                        <th>Revenue</th>
+                                        <th>Expense</th>
+                                        <th>Op. Income</th>
+                                        <th>Margin</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="financial-table"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Investment Thesis Summary -->
     <section class="about" id="thesis">
         <div class="container">
@@ -225,6 +321,12 @@
                 <p class="section-subtitle">Measurable impact across Fortune 500 operations</p>
             </div>
             <div class="highlights-grid">
+                <div class="highlight-card">
+                    <div class="highlight-icon">$</div>
+                    <h3>$13B Annual Expense Analysis</h3>
+                    <p>Supported analysis and executive visibility across $13B in annual expenses through business intelligence, forecasting, and self-service financial reporting.</p>
+                    <a href="#dashboard" class="highlight-link">Explore dashboard →</a>
+                </div>
                 <div class="highlight-card">
                     <div class="highlight-icon">$</div>
                     <h3>$15M Vendor Negotiation Savings</h3>
