@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drew W. | Finance Transformation and BI Leader</title>
+    <title>Whitlock App | Finance Transformation and BI Leader</title>
     <meta name="description" content="Finance transformation and business intelligence leader building forecasting automation, executive analytics, and decision systems for modern finance teams.">
     <meta name="keywords" content="FP&A, business intelligence, forecasting, Power BI, AWS, Python, Anaplan, finance transformation">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1726'/%3E%3Ctext x='16' y='22' font-family='Arial,sans-serif' font-size='16' font-weight='700' text-anchor='middle' fill='white'%3ED%3C/text%3E%3C/svg%3E">
@@ -12,7 +12,7 @@
 <body>
     <nav class="nav" id="nav" aria-label="Primary navigation">
         <div class="nav-container">
-            <a href="#home" class="nav-logo" aria-label="Drew W. home">Drew W.</a>
+            <a href="#home" class="nav-logo" aria-label="Whitlock App home">Whitlock App</a>
             <div class="nav-menu" id="nav-menu">
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#dashboard" class="nav-link">Dashboard</a>
@@ -30,32 +30,38 @@
 
     <main>
         <section class="hero" id="home">
+            <div class="hero-backdrop" aria-hidden="true">
+                <span class="orb orb-1"></span>
+                <span class="orb orb-2"></span>
+                <span class="orb orb-3"></span>
+            </div>
             <div class="hero-container">
                 <div class="hero-copy">
-                    <p class="eyebrow">Finance transformation x business intelligence</p>
-                    <h1>Executive finance systems that turn complex data into decisions.</h1>
-                    <p class="hero-subtitle">I build automated forecasting, self-service analytics, and BI operating models for finance teams that need speed, clarity, and executive-grade confidence.</p>
-                    <div class="hero-actions">
+                    <p class="hero-badge reveal"><span class="badge-dot"></span>Enterprise finance intelligence platform</p>
+                    <h1 class="app-title reveal delay-1">Whitlock App</h1>
+                    <p class="hero-headline reveal delay-2">Executive finance systems that turn complex data into decisions.</p>
+                    <p class="hero-subtitle reveal delay-3">Automated forecasting, self-service analytics, and BI operating models for finance teams that need speed, clarity, and executive-grade confidence.</p>
+                    <div class="hero-actions reveal delay-4">
                         <a href="#dashboard" class="btn btn-primary">Explore dashboard</a>
                         <a href="#track-record" class="btn btn-secondary">View track record</a>
                     </div>
                 </div>
-                <div class="hero-panel" aria-label="Professional impact summary">
+                <div class="hero-panel reveal-right delay-2" aria-label="Professional impact summary">
                     <div class="panel-topline">
                         <span>Impact Snapshot</span>
                         <strong>FP&A + BI</strong>
                     </div>
                     <div class="hero-metrics">
                         <div>
-                            <strong>$13B</strong>
+                            <strong data-count="13" data-prefix="$" data-suffix="B">$13B</strong>
                             <span>Annual expense analysis supported</span>
                         </div>
                         <div>
-                            <strong>~$30M</strong>
+                            <strong data-count="30" data-prefix="~$" data-suffix="M">~$30M</strong>
                             <span>Forecast automation savings opportunity</span>
                         </div>
                         <div>
-                            <strong>F500</strong>
+                            <strong data-count="500" data-prefix="F">F500</strong>
                             <span>Finance transformation environment</span>
                         </div>
                     </div>
@@ -67,8 +73,8 @@
                                     <stop offset="100%" stop-color="#2e7cf6" stop-opacity="0"/>
                                 </linearGradient>
                             </defs>
-                            <path d="M18 130 C76 108 96 84 142 92 C202 102 222 48 278 58 C326 66 350 34 402 24 L402 150 L18 150 Z" fill="url(#heroFill)"/>
-                            <path d="M18 130 C76 108 96 84 142 92 C202 102 222 48 278 58 C326 66 350 34 402 24" fill="none" stroke="#2e7cf6" stroke-width="5" stroke-linecap="round"/>
+                            <path class="mini-chart-fill" d="M18 130 C76 108 96 84 142 92 C202 102 222 48 278 58 C326 66 350 34 402 24 L402 150 L18 150 Z" fill="url(#heroFill)"/>
+                            <path class="mini-chart-line" pathLength="1" d="M18 130 C76 108 96 84 142 92 C202 102 222 48 278 58 C326 66 350 34 402 24" fill="none" stroke="#2e7cf6" stroke-width="5" stroke-linecap="round"/>
                         </svg>
                     </div>
                     <p class="hero-proof">Supported analysis and executive visibility across $13B in annual expenses through BI, forecasting, and self-service financial reporting.</p>
@@ -78,13 +84,13 @@
 
         <section class="dashboard-section" id="dashboard">
             <div class="container">
-                <div class="section-header">
+                <div class="section-header reveal">
                     <p class="eyebrow">Interactive demo</p>
                     <h2>Drag-and-drop financial dashboard</h2>
                     <p>Analyze historical performance, see a 3-year moving-average forecast, and reorder the executive view like a modern BI product.</p>
                 </div>
 
-                <div class="dashboard-shell">
+                <div class="dashboard-shell reveal delay-1">
                     <div class="dashboard-toolbar">
                         <div>
                             <label for="company-select">Company</label>
@@ -169,56 +175,70 @@
 
         <section class="track-record" id="track-record">
             <div class="container">
-                <div class="section-header">
+                <div class="section-header reveal">
                     <p class="eyebrow">Track record</p>
                     <h2>Finance, data science, and executive BI delivery.</h2>
                     <p>Built for leaders who need modern finance systems, not another spreadsheet handoff.</p>
                 </div>
-                <div class="record-grid">
-                    <article class="record-card primary">
+                <div class="record-grid stagger-group">
+                    <article class="record-card primary reveal">
                         <span class="card-label">Current Focus</span>
                         <h3>FNA Manager, FM Transformation</h3>
                         <p>Leading forecasting transformation across retirement and insurance finance, partnering with CFO leadership, data science, visualization, and business teams.</p>
                     </article>
-                    <article class="record-card">
+                    <article class="record-card reveal">
                         <span class="card-label">$13B Annual Expenses</span>
                         <h3>BI visibility at enterprise scale</h3>
                         <p>Supported analysis of $13B in annual expenses through business intelligence, reporting automation, and executive-ready finance analytics.</p>
                     </article>
-                    <article class="record-card">
+                    <article class="record-card reveal">
                         <span class="card-label">Forecast Automation</span>
                         <h3>Touchless forecasting systems</h3>
                         <p>Designed automated forecasting capabilities targeting faster cycles, improved accuracy, and up to ~$30M in annual savings opportunity.</p>
                     </article>
-                    <article class="record-card">
+                    <article class="record-card reveal">
                         <span class="card-label">Operating Model</span>
                         <h3>Self-service finance analytics</h3>
                         <p>Built tools and dashboards that move finance teams from manual collection to governed, repeatable insight delivery.</p>
                     </article>
                 </div>
 
-                <div class="capability-band">
-                    <span>Python</span>
-                    <span>SQL</span>
-                    <span>AWS</span>
-                    <span>Power BI</span>
-                    <span>Anaplan</span>
-                    <span>FP&A</span>
-                    <span>Forecasting</span>
-                    <span>Executive Communication</span>
+                <div class="capability-band reveal" aria-label="Capabilities">
+                    <div class="capability-track">
+                        <div class="capability-group">
+                            <span>Python</span>
+                            <span>SQL</span>
+                            <span>AWS</span>
+                            <span>Power BI</span>
+                            <span>Anaplan</span>
+                            <span>FP&A</span>
+                            <span>Forecasting</span>
+                            <span>Executive Communication</span>
+                        </div>
+                        <div class="capability-group" aria-hidden="true">
+                            <span>Python</span>
+                            <span>SQL</span>
+                            <span>AWS</span>
+                            <span>Power BI</span>
+                            <span>Anaplan</span>
+                            <span>FP&A</span>
+                            <span>Forecasting</span>
+                            <span>Executive Communication</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="projects" id="projects">
             <div class="container">
-                <div class="section-header">
+                <div class="section-header reveal">
                     <p class="eyebrow">Projects</p>
                     <h2>Applied finance technology work.</h2>
                     <p>Selected initiatives that show the operating range across automation, analytics, and product thinking.</p>
                 </div>
-                <div class="projects-grid">
-                    <article class="project-card featured">
+                <div class="projects-grid stagger-group">
+                    <article class="project-card featured reveal">
                         <span class="project-status">In Progress</span>
                         <h3>Touchless Forecast</h3>
                         <p>Automated forecasting model with minimal manual intervention to improve speed, accuracy, and executive reporting consistency across multiple businesses.</p>
@@ -229,7 +249,7 @@
                             <span>Anaplan</span>
                         </div>
                     </article>
-                    <article class="project-card">
+                    <article class="project-card reveal">
                         <span class="project-status">Planning</span>
                         <h3>Expense Management Platform</h3>
                         <p>Expense data pipeline and reporting modernization for by-product analysis, self-service projections, and cleaner finance governance.</p>
@@ -239,7 +259,7 @@
                             <span>BI</span>
                         </div>
                     </article>
-                    <article class="project-card">
+                    <article class="project-card reveal">
                         <span class="project-status">Prototype</span>
                         <h3>Forecast SaaS POC</h3>
                         <p>Product concept for automated forecasting and executive-level reporting without manual Excel consolidation.</p>
@@ -255,12 +275,12 @@
 
         <section class="contact" id="contact">
             <div class="container contact-grid">
-                <div>
+                <div class="reveal">
                     <p class="eyebrow">Contact</p>
                     <h2>Open to finance technology leadership conversations.</h2>
                     <p>Best fit: roles and advisory conversations at the intersection of FP&A transformation, BI, data science, and executive decision systems.</p>
                 </div>
-                <div class="contact-card">
+                <div class="contact-card reveal delay-1">
                     <h3>Focus Areas</h3>
                     <ul>
                         <li>Director / VP finance technology leadership</li>

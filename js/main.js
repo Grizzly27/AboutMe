@@ -58,10 +58,78 @@ const companies = {
 const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 const pct = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 });
 
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 document.addEventListener("DOMContentLoaded", () => {
     setupNavigation();
     setupDashboard();
+    setupReveals();
+    setupCounters();
+    setupNavShadow();
 });
+
+function setupReveals() {
+    const elements = [...document.querySelectorAll(".reveal, .reveal-right")];
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+        elements.forEach((el) => el.classList.add("revealed"));
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const group = el.closest(".stagger-group");
+            if (group) {
+                const siblings = [...group.querySelectorAll(".reveal, .reveal-right")];
+                el.style.setProperty("--reveal-delay", `${siblings.indexOf(el) * 0.1}s`);
+            }
+            el.classList.add("revealed");
+            observer.unobserve(el);
+        });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.1 });
+
+    elements.forEach((el) => observer.observe(el));
+}
+
+function setupCounters() {
+    const counters = [...document.querySelectorAll("[data-count]")];
+    if (!counters.length) return;
+    if (reducedMotion || !("IntersectionObserver" in window)) return;
+
+    const animate = (el) => {
+        const target = Number(el.dataset.count);
+        const prefix = el.dataset.prefix || "";
+        const suffix = el.dataset.suffix || "";
+        const duration = 1400;
+        const start = performance.now();
+
+        const tick = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = `${prefix}${Math.round(target * eased)}${suffix}`;
+            if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            animate(entry.target);
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.5 });
+
+    counters.forEach((el) => observer.observe(el));
+}
+
+function setupNavShadow() {
+    const nav = document.querySelector("#nav");
+    const update = () => nav.classList.toggle("scrolled", window.scrollY > 8);
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+}
 
 function setupNavigation() {
     const toggle = document.querySelector("#nav-toggle");
@@ -193,10 +261,10 @@ function renderTrendChart(rows) {
         <line class="axis" x1="${pad.left}" y1="${height - pad.bottom}" x2="${width - pad.right}" y2="${height - pad.bottom}"></line>
         <line x1="${x(actualCount - 1)}" y1="${pad.top}" x2="${x(actualCount - 1)}" y2="${height - pad.bottom}" stroke="#94a3b8" stroke-dasharray="5 6"></line>
         <text class="chart-label" x="${x(actualCount - 1) + 10}" y="${pad.top + 12}">Forecast</text>
-        <path class="line-revenue" d="${pathFromPoints(revenueActual)}"></path>
-        <path class="line-revenue forecast" d="${pathFromPoints(revenueForecast)}"></path>
-        <path class="line-expense" d="${pathFromPoints(expenseActual)}"></path>
-        <path class="line-expense forecast" d="${pathFromPoints(expenseForecast)}"></path>
+        <path class="line-revenue draw-line" pathLength="1" d="${pathFromPoints(revenueActual)}"></path>
+        <path class="line-revenue forecast fade-line" d="${pathFromPoints(revenueForecast)}"></path>
+        <path class="line-expense draw-line" pathLength="1" d="${pathFromPoints(expenseActual)}"></path>
+        <path class="line-expense forecast fade-line" d="${pathFromPoints(expenseForecast)}"></path>
         ${labels}
         <text x="${width - 186}" y="28" fill="#2457d6" font-size="14" font-weight="800">Revenue</text>
         <text x="${width - 92}" y="28" fill="#0f9f8d" font-size="14" font-weight="800">Expense</text>
